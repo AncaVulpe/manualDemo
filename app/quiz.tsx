@@ -26,7 +26,7 @@ const QuizScreen = () => {
     navigation.setOptions({
       title: 'Quiz',
       headerLeft: currentQuestionIndex > 0 && !showResult ? () => (
-        <TouchableOpacity style={{ marginLeft: 15 }} onPress={handlePrevious}>
+        <TouchableOpacity style={{ marginLeft: 12 }} onPressOut={handlePrevious}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
       ) : undefined,
@@ -157,12 +157,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     marginTop: hp(2.2),
+    flexDirection: 'column',
   },
   optionButton: {
     borderWidth: 1,
     borderColor: '#A5B79F',
     borderRadius: hp(2.8),
-    width: wp(96),
+    width: wp(90),
     alignItems: 'center',
     marginBottom: hp(2),
   },

@@ -6,7 +6,7 @@ import {
   heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
 
-import logo from '../assets/svgs/logo.svg';
+import logo from '../assets/images/Symbol.png';
 import Button from '@/components/Button';
 
 const LandingScreen = () => {
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   logo: {
     width: hp(16.8),
     height: hp(16.8),
-    // marginTop: hp(4),
   },
   titleContainer: {
     marginTop: hp(4.1),
