@@ -25,7 +25,7 @@ export default function Button({ label, theme, disabled, onPress }: Props) {
 
   return (
     <View style={styles.buttonContainer}>
-      <Pressable style={styles.button} onPress={onPress}>
+      <Pressable style={[styles.button, disabled === true && {opacity: 0.5}]} onPress={onPress}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>

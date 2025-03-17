@@ -34,12 +34,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#A5B79F',
     alignItems: 'center',
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
+    padding: hp(2.2),
   },
   logo: {
     width: hp(16.8),
     height: hp(16.8),
-    marginTop: hp(9),
+    // marginTop: hp(4),
   },
   titleContainer: {
     marginTop: hp(4.1),

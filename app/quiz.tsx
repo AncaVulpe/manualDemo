@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Linking } from 'react-native';
 import quizData from '../data/quiz.json';
 import { QuizData, Question, Option } from '../types';
-import { useRouter, useNavigation } from 'expo-router';
+import { useRouter, useNavigation, Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Button from '@/components/Button';
+import { 
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp
+} from 'react-native-responsive-screen';
 
 const QuizScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -68,16 +72,20 @@ const QuizScreen = () => {
     return (
       <View style={styles.container}>
         {isRejected === true && (
-          <Text style={styles.result}>
+          <Text style={[styles.text, {marginTop: hp(12), textAlign: 'left'}]}>
             Unfortunately, we are unable to prescribe this medication for you. This is because
             finasteride can alter the PSA levels, which may be used to monitor for cancer. You should
             discuss this further with your GP or specialist if you would still like this medication.
           </Text>
         )}
         {isRejected === false && (
-          <Text style={styles.successResult}>
+          <Text style={[styles.text, {marginTop: hp(12), textAlign: 'left'}]}>
             Great news! We have the perfect treatment for your hair loss. Proceed to{' '}
-            <Text style={{ fontWeight: 'bold' }}>www.manual.co</Text>, and prepare to say hello to
+            <TouchableOpacity onPress={() => Linking.openURL('https://www.manual.co')}>
+                <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>
+                    www.manual.co
+                </Text>
+            </TouchableOpacity>, and prepare to say hello to
             your new hair!
           </Text>
         )}
@@ -88,34 +96,36 @@ const QuizScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.question}>{currentQuestion.question}</Text>
-      <View style={styles.optionsContainer}>
-        {currentQuestion.options.map((option, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.optionButton,
-              userResponses[currentQuestionIndex]?.value === option.value && styles.selectedOption,
-              currentQuestion.type === 'ChoiceTypeImage' && styles.imageOptionButton,
-            ]}
-            onPress={() => handleAnswer(option)}
-          >
-            {currentQuestion.type === 'ChoiceTypeImage' && (
-              <Image source={{ uri: option.display }} style={styles.imageOption} resizeMode="contain" />
-            )}
-            {currentQuestion.type === 'ChoiceTypeText' && (
-              <Text style={styles.optionText}>{option.display}</Text>
-            )}
-          </TouchableOpacity>
-        ))}
+      <View style={styles.questionContainer}>
+        <Text style={[styles.text, {marginTop: hp(12)}]}>{currentQuestion.question}</Text>
+        <View style={[styles.optionsContainer, currentQuestion.type === 'ChoiceTypeImage' && { flexDirection: 'row' }]}>
+            {currentQuestion.options.map((option, index) => (
+            <TouchableOpacity
+                key={index}
+                style={[
+                styles.optionButton,
+                userResponses[currentQuestionIndex]?.value === option.value && styles.selectedOption,
+                currentQuestion.type === 'ChoiceTypeImage' && styles.imageOptionButton,
+                ]}
+                onPress={() => handleAnswer(option)}
+            >
+                {currentQuestion.type === 'ChoiceTypeImage' && (
+                <Image source={{ uri: option.display }} alt={option.value as string} style={styles.imageOption} resizeMode="contain" />
+                )}
+                {currentQuestion.type === 'ChoiceTypeText' && (
+                <Text style={styles.text}>{option.display}</Text>
+                )}
+            </TouchableOpacity>
+            ))}
+        </View>
       </View>
      
-          <Button
-            label="NEXT"
-            onPress={handleNext}
-            disabled={!isNextButtonEnabled}
-          />
-        </View>
+    <Button
+    label="NEXT"
+    onPress={handleNext}
+    disabled={!isNextButtonEnabled}
+    />
+    </View>
   );
 };
 
@@ -125,44 +135,51 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#ECF0EBFA',
-    padding: 20,
+    padding: hp(2.2),
   },
-  question: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: 'center',
+  questionContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },    
+  text: {
+    fontSize: hp(3.2),
+    fontFamily: 'TT Norms',
+    color: '#0B3B3C',
+    textAlign: 'center',  
+    lineHeight: hp(4.5),
+    fontWeight: 500,
+    letterSpacing: -0.03,
+    padding: hp(2.2),
   },
   optionsContainer: {
     width: '100%',
     flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    marginTop: hp(2.2),
   },
   optionButton: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    width: '45%',
+    borderColor: '#A5B79F',
+    borderRadius: hp(2.8),
+    width: wp(96),
     alignItems: 'center',
+    marginBottom: hp(2),
   },
   selectedOption: {
-    backgroundColor: 'lightblue',
-    borderColor: 'blue',
-  },
-  optionText: {
-    fontSize: 16,
-    textAlign: 'center',
+    backgroundColor: '#A5B79F',
+    borderRadius: hp(2.8),
   },
   imageOptionButton: {
-    width: '30%',
-    height: 120,
+    width: wp(30),
+    height: wp(30),
     justifyContent: 'center',
+    marginTop: wp(3),
+    borderColor: '#ECF0EBFA',
   },
   imageOption: {
-    width: '100%',
-    height: '80%',
+    width: wp(30),
+    height: wp(30),
     resizeMode: 'contain',
   },
   navigation: {
