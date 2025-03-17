@@ -10,7 +10,10 @@ import logo from '../assets/images/Symbol.png';
 import Button from '@/components/Button';
 
 const LandingScreen = () => {
+  //hooks region
   const router = useRouter();
+  //endregion
+
   return (
     <View style={styles.container}>
       <Image source={logo} style={styles.logo} />

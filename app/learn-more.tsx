@@ -15,22 +15,26 @@ import {
 const { width } = Dimensions.get('window');
 
 const LearnMoreCarousel = () => {
+  //hooks region
   const router = useRouter();
   const navigation = useNavigation();
   const flatListRef = useRef<FlatList<LearnMoreItem>>(null);
-  const infoItems = (learnMoreData as LearnMoreData).data;
   const [currentIndex, setCurrentIndex] = useState(0);
+  
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity style={{ marginLeft: 15 }} onPressOut={() => router.back()}>
+        <TouchableOpacity style={{ marginLeft: 12 }} onPressOut={() => router.back()}>
           <Ionicons name="close" size={24} color="black" />
         </TouchableOpacity>
       ),
       title: 'What can we help with',
     });
   }, [navigation, router]);
+  //endregion
+
+  const infoItems = (learnMoreData as LearnMoreData).data;
 
   const handleNext = () => {
     if (currentIndex < infoItems.length - 1) {
@@ -96,12 +100,12 @@ const LearnMoreCarousel = () => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={handleScrollEnd} // Use onMomentumScrollEnd for smoother updates
+        onMomentumScrollEnd={handleScrollEnd}
       />
       <View style={styles.controlsContainer}>
         {renderPageIndicator()}
         <Button
-          label={currentIndex < infoItems.length - 1 ? 'Next' : 'Done'}
+          label={currentIndex < infoItems.length - 1 ? 'NEXT' : 'DONE'}
           onPress={handleNext}
         />
       </View>

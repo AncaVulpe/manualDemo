@@ -11,7 +11,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function Button({ label, theme, disabled, onPress }: Props) {
+const Button = ({ label, theme, disabled, onPress }: Props)  => {
   if (theme === 'primary') {
     return (
       <View
@@ -25,7 +25,7 @@ export default function Button({ label, theme, disabled, onPress }: Props) {
 
   return (
     <View style={styles.buttonContainer}>
-      <Pressable style={[styles.button, disabled === true && {opacity: 0.5}]} onPress={onPress}>
+      <Pressable style={[styles.button, disabled === true && {opacity: 0.5}]} onPress={onPress} disabled={disabled === undefined ? false : disabled}>
         <Text style={styles.buttonLabel}>{label}</Text>
       </Pressable>
     </View>
@@ -59,3 +59,5 @@ const styles = StyleSheet.create({
     fontWeight: 500,
   },
 });
+
+export default Button;
